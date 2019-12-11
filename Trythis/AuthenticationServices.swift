@@ -7,12 +7,12 @@
 //
 
 import UIKit
-//import FirebaseAuth
+import FirebaseAuth
 
 class AuthenticationServices {
     
     class func signIn(email: String, pass: String, callback: @escaping (_ success: Bool) -> Void) {
-        /*Auth.auth().signIn(withEmail: email, password: pass) { (result, error) in
+        Auth.auth().signIn(withEmail: email, password: pass) { (result, error) in
             if let error = error {
                 let aec = AuthErrorCode(rawValue: error._code)
                 let tx2 = aec.debugDescription
@@ -21,17 +21,17 @@ class AuthenticationServices {
             } else {
                 callback(true)
             }
-        }*/
+        }
     }
-    
+  
     
     class func createUser(email: String, password: String, callback: @escaping (_ success: Bool) -> Void) {
-        /*Auth.auth().createUser(withEmail: email, password: password) {(authResult, error) in
+        Auth.auth().createUser(withEmail: email, password: password) {(authResult, error) in
             if let error = error {
                 callback(false)
             } else {
                 callback(true)
             }
-        }*/
+        }
     }
 }
