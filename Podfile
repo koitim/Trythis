@@ -8,5 +8,6 @@ target 'Trythis' do
   # Pods for Trythis
   pod 'Firebase/Analytics’, '~> 4.0'
   pod 'Firebase/Auth', '~> 4.0'
+  pod ‘Firebase/Database’, '~> 4.0'
 
 end

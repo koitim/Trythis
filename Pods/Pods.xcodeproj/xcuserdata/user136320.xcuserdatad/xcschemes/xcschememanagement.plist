@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>FirebaseDatabase.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>FirebaseInstanceID.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -40,6 +45,11 @@
 			<false/>
 		</dict>
 		<key>Pods-Trythis.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>leveldb-library.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -68,6 +78,16 @@
 			<true/>
 		</dict>
 		<key>6AE4A3D573DED275B034E20506596C62</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>736AF68F6527ACF6B4A4C54728824A1C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9307B7A119490930CF70393AB529AAC1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
