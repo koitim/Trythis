@@ -8,13 +8,38 @@
 
 import UIKit
 
-class UserCriationController: UIViewController {
+class UserCriationController: UIViewController , UITextFieldDelegate{
     
     @IBOutlet weak var email               : UITextField!
     @IBOutlet weak var password            : UITextField!
     @IBOutlet weak var passwordConfirmation: UITextField!
+    @IBOutlet weak var register: UIButton!
+    
+    override func viewDidLoad() {
+        email.delegate = self
+        password.delegate = self
+        passwordConfirmation.delegate = self
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == email {
+            password.becomeFirstResponder()
+            return true
+        }
+        if textField == password {
+            passwordConfirmation.becomeFirstResponder()
+            return true
+        }
+        if textField == passwordConfirmation {
+            onClickCreate(register)
+        }
+        return true
+    }
     
     @IBAction func onClickCreate(_ sender: UIButton) {
+        email.resignFirstResponder()
+        password.resignFirstResponder()
+        passwordConfirmation.resignFirstResponder()
         let isValidEmail = AuthenticationPresenter.isValid(email: email.text!)
         if isValidEmail {
             let isValidPassword = AuthenticationPresenter.isValid(password: password.text!)
@@ -28,7 +53,11 @@ class UserCriationController: UIViewController {
                     }
                 }
                 AuthenticationServices.createUser(email: email.text!, password: password.text!, callback: callback)
+            } else {
+                self.showError("A senha deve ter pelo menos 6 caracteres!")
             }
+        } else {
+            self.showError("Email inválido!")
         }
     }
 }

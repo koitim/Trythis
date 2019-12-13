@@ -18,49 +18,32 @@ class TrythisModel {
         self.presenter = presenter
     }
     
-/*    class func getMoviesPopular(_ callback: @escaping (_ movies: Array<Movie>?, _ error: Error?) -> Void) {
-        let http = URLSession.shared
-        let url = URL(string: "https://api.themoviedb.org/3/movie/popular?api_key=942ccf9bf53c7651369a6116da7ed318&language=pt-BR")
-        let request = URLRequest(url: url!)
-        let task = http.dataTask(with: request, completionHandler: {(data, response, error) -> Void in
-            if let error = error {
-                callback(nil, error)
-                return
-            }
-            if let data = data {
-                let movies = MovieService.parserJson(data)
-                DispatchQueue.main.async {
-                    callback(movies, nil)
-                }
-            }
-        })
-        task.resume()
-    }
-    
-    class func favorite(_ movie: Movie) {
+    func addInterest(_ interest: Interest) {
         let currentUser = Auth.auth().currentUser
         var ref: DatabaseReference!
         ref = Database.database().reference()
         ref
-            .child("favoritos")
+            .child("INTERESTS")
             .child(currentUser!.uid)
-            .child(String(movie.id))
-            .setValue(movie.cloneFirebase())
+            .child("CATEGORIES")
+            .child(interest.category)
+            .setValue((interest.subcategory))
     }
     
-    class func unFavorite(_ movie: Movie) {
+    func removeInterest(_ interest: Interest) {
         let currentUser = Auth.auth().currentUser
         var ref: DatabaseReference!
         ref = Database.database().reference()
         ref
-            .child("favoritos")
+            .child("INTERESTS")
             .child(currentUser!.uid)
-            .child(String(movie.id))
+            .child("CATEGORIES")
+            .child(interest.category)
+            .child(interest.subcategory)
             .removeValue()
-     }*/
+     }
     
     func getEvents(_ callback: @escaping (_ events: Array<Event>?, _ error: Error?) -> Void) {
-        //let currentUser = Auth.auth().currentUser
         var ref: DatabaseReference!
         ref = Database.database().reference()
         ref.child("EVENTOS").observeSingleEvent(of: .value, with: {(snapshot) in
@@ -133,33 +116,4 @@ class TrythisModel {
             callback(nil, error)
         }
     }
-    /*
-    class func parserJson(_ data: Data) -> Array<Event> {
-        var events: Array<Event> = []
-        do {
-            let dictResponse = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! NSDictionary
-            let arrayMovies = dictResponse["results"] as! NSArray
-            for obj in arrayMovies {
-                let dict = obj as! NSDictionary
-                let movie = Movie()
-                movie.id = dict["id"] as! Int
-                movie.title = getValue("title", dict)
-                movie.synopsis = getValue("overview", dict)
-                movie.url_image = getValue("poster_path", dict)
-                movies.append(movie)
-            }
-        } catch let error as NSError {
-            print("Erro ao ler JSON (error)")
-        }
-        return movies
-    }
-    
-    class func getValue(_ key: String, _ dict: NSDictionary) -> String {
-        let s = dict[key]
-        if let s = s {
-            return s as! String
-        }
-        return ""
-    }*/
-    
 }

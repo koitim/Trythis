@@ -14,6 +14,8 @@ class LoginController: UIViewController {
     @IBOutlet weak var password: UITextField!    
     
     @IBAction func onClickLogin(_ sender: UIButton) {
+        email.resignFirstResponder()
+        password.resignFirstResponder()
         let isValidEmail = AuthenticationPresenter.isValid(email: email.text!)
         if isValidEmail {
             let isValidPassword = AuthenticationPresenter.isValid(password: password.text!)
@@ -21,7 +23,7 @@ class LoginController: UIViewController {
                 
                 let callback = {(_ success: Bool/*, _ error: Error?*/) -> Void in
                     if success {
-                        if let initialVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() {
+                        if let initialVC = UIStoryboard(name: "Trythis", bundle: nil).instantiateInitialViewController() {
                             self.present(initialVC, animated: true, completion: nil)
                         }
                     } else {
@@ -29,7 +31,11 @@ class LoginController: UIViewController {
                     }
                 }
                 AuthenticationServices.signIn(email: email.text!, pass: password.text!, callback: callback)
+            } else {
+                self.showError("A senha deve ter pelo menos 6 caracteres!")
             }
+        } else {
+            self.showError("Email inválido!")
         }
     }
     
