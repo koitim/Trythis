@@ -18,11 +18,14 @@ class EventListController: UIViewController, UITableViewDataSource, TrythisView 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.presenter = TrythisPresenter(view: (self as? TrythisView)!)
+        self.presenter = TrythisPresenter.shared()
         self.title = "Eventos"
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         presenter!.fetchEvents()
-        self.events = presenter!.getEvents()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        presenter?.setView(self)
     }
     
     

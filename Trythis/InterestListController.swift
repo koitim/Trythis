@@ -11,18 +11,21 @@ import UIKit
 class InterestListController: UIViewController, UITableViewDataSource, TrythisView {
     
     @IBOutlet var tableView: UITableView!
-    //@IBOutlet var progress: UIActivityIndicatorView!
     
     var interests = [String: [Interest]]()
     var presenter: TrythisPresenter?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.presenter = TrythisPresenter(view: (self as? TrythisView)!)
+        self.presenter = TrythisPresenter.shared()
         self.title = "Interesses"
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         presenter!.fetchInterests()
         self.interests = presenter!.getInterests()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        presenter?.setView(self)
     }
     
     // DataSource

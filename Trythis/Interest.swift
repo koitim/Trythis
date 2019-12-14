@@ -13,12 +13,4 @@ class Interest {
     var category = " "
     var subcategory = " "
     var interest = false
-    
-    func isCategory() -> Bool {
-        return subcategory == " "
-    }
-    
-    func isSubcategory() -> Bool {
-        return subcategory != " "
-    }
 }

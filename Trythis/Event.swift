@@ -9,18 +9,8 @@
 import Foundation
 
 class Event {
-    //var id = 0
     var name = " "
     var date = " "
     var category = " "
     var subcategory = " "
-    
-    /*func cloneFirebase() -> MovieFirebase {
-        let mf = MovieFirebase()
-        mf.id = self.id
-        mf.title = self.title
-        mf.synopsis = self.synopsis
-        mf.url_image = self.url_image
-        return mf
-    }*/
 }

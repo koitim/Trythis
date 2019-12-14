@@ -28,6 +28,7 @@
 		34D40E9C239F48B8000D7BA6 /* AuthenticationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D40E9B239F48B8000D7BA6 /* AuthenticationPresenter.swift */; };
 		34D40E9F239F48F6000D7BA6 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D40E9E239F48F6000D7BA6 /* String+Extensions.swift */; };
 		34D40EA1239F4A0D000D7BA6 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D40EA0239F4A0D000D7BA6 /* UIViewController+Extensions.swift */; };
+		54D3AD4E23A554B400BBF054 /* NotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D3AD4D23A554B400BBF054 /* NotificationDelegate.swift */; };
 		E4DB6B32DE881D710DCC7DAF /* Pods_Trythis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E04D19B795DD5EE5A055E351 /* Pods_Trythis.framework */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +57,7 @@
 		34D40E9B239F48B8000D7BA6 /* AuthenticationPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationPresenter.swift; sourceTree = "<group>"; };
 		34D40E9E239F48F6000D7BA6 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		34D40EA0239F4A0D000D7BA6 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		54D3AD4D23A554B400BBF054 /* NotificationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationDelegate.swift; sourceTree = "<group>"; };
 		D7081239181B56B7DE76A203 /* Pods-Trythis.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trythis.release.xcconfig"; path = "Target Support Files/Pods-Trythis/Pods-Trythis.release.xcconfig"; sourceTree = "<group>"; };
 		E04D19B795DD5EE5A055E351 /* Pods_Trythis.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Trythis.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -110,6 +112,7 @@
 				3469344623A339DA00E4AAAB /* GoogleService-Info.plist */,
 				346EC7AC239F3A810045D7CF /* Assets.xcassets */,
 				346EC7A5239F3A810045D7CF /* AppDelegate.swift */,
+				54D3AD4D23A554B400BBF054 /* NotificationDelegate.swift */,
 			);
 			path = Trythis;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 				34746EB623A1D9FD00F49AB9 /* Event.swift in Sources */,
 				34746EB223A1C1B800F49AB9 /* TrythisModel.swift in Sources */,
 				34746EC023A1EF9300F49AB9 /* SubcategoryCell.swift in Sources */,
+				54D3AD4E23A554B400BBF054 /* NotificationDelegate.swift in Sources */,
 				34D40E9F239F48F6000D7BA6 /* String+Extensions.swift in Sources */,
 				34746EB823A1DAE500F49AB9 /* EventCell.swift in Sources */,
 				346EC7A8239F3A810045D7CF /* InterestListController.swift in Sources */,

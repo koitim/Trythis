@@ -7,18 +7,36 @@
 //
 
 import UIKit
+import UserNotifications
 
 class TrythisPresenter {
+    
+    static private var instance: TrythisPresenter? = nil
+    
     var events: Array<Event> = []
     var interests = [String:[Interest]]()
+    var firstTime = true
     
-    let view: TrythisView
+    var view: TrythisView? = nil
     let model: TrythisModel
     
-    init(view: TrythisView) {
-        self.view = view
+    var appDelegate = UIApplication.shared.delegate as? AppDelegate
+    
+    class func shared() -> TrythisPresenter {
+        //if guard instance = instance {
+        if instance == nil {
+            instance = TrythisPresenter()
+        }
+        return instance!
+    }
+    
+    init() {
         self.model = TrythisModel()
         model.setPresenter(self)
+    }
+    
+    func setView(_ view: TrythisView) {
+        self.view = view
     }
     
     func getEvents() -> Array<Event> {
@@ -26,13 +44,29 @@ class TrythisPresenter {
     }
     
     func fetchEvents() {
-        let callback = {(_ events: Array<Event>?, _ error: Error?) -> Void in
-            if let events = events {
-                self.events = events
-                self.view.updated()
+        let cbListener = {(_ events: Array<Event>?, _ error: Error?) -> Void in
+            if let newEvents = events {
+                if self.firstTime {
+                    self.firstTime = false
+                } else {
+                    for event in newEvents {
+                        if !(self.events.contains{
+                            $0.name == event.name
+                        }) {
+                            for interest in self.interests[event.category]! {
+                                if interest.subcategory == event.subcategory &&
+                                    interest.interest {
+                                    self.appDelegate?.scheduleNotification(text: event.name)
+                                }
+                            }
+                        }
+                    }
+                }
+                self.events = newEvents
+                self.view?.updated()
             }
         }
-        model.getEvents(callback)
+        model.addListenerEvents(cbListener)
     }
     
     func getInterests() -> [String: [Interest]] {
@@ -53,21 +87,13 @@ class TrythisPresenter {
                         }
                     }
                 }
-                /*for interestUser in interestsUser {
-                    for interest in self.interests {
-                        if interest.category == interestUser.category &&
-                            interest.subcategory == interestUser.subcategory {
-                            interest.interest = true
-                        }
-                    }
-                }*/
-                self.view.updated()
+                self.view?.updated()
             }
         }
         let cbCategories = {(_ categories: [String:[Interest]]?, _ error: Error?) -> Void in
             if let categories = categories {
                 self.interests = categories
-                self.view.updated()
+                self.view?.updated()
                 self.model.getInterests(cbInterests)
             }
         }

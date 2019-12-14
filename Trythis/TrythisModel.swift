@@ -12,7 +12,47 @@ import FirebaseAuth
 
 class TrythisModel {
     
-    var presenter: TrythisPresenter?
+    weak var presenter: TrythisPresenter?
+    
+    let handleEventData = {(snapshot: DataSnapshot) -> Array<Event> in
+        var events: Array<Event> = []
+        for child in snapshot.children {
+            let data = child as! DataSnapshot
+            let dataValue = data.value as! [String: AnyObject]
+            let event = Event()
+            event.name = data.key
+            event.date = dataValue["date"] as! String
+            event.category = dataValue["category"] as! String
+            event.subcategory = dataValue["subcategory"] as! String
+            events.append(event)
+        }
+        return events
+    }
+    
+    func addListenerEvents(_ callback: @escaping (_ events: Array<Event>?, _ error: Error?) -> Void) {
+        let ref = Database.database().reference()
+        ref.child("EVENTOS").observe(.value, with: {(snapshot) in
+            let events = self.handleEventData(snapshot)
+            DispatchQueue.main.async {
+                callback(events, nil)
+            }
+        }) {(error) in
+            callback(nil, error)
+        }
+    }
+    
+    func getEvents(_ callback: @escaping (_ events: Array<Event>?, _ error: Error?) -> Void) {
+        var ref: DatabaseReference!
+        ref = Database.database().reference()
+        ref.child("EVENTOS").observeSingleEvent(of: .value, with: {(snapshot) in
+            let events = self.handleEventData(snapshot)
+            DispatchQueue.main.async {
+                callback(events, nil)
+            }
+        }) {(error) in
+            callback(nil, error)
+        }
+    }
     
     func setPresenter(_ presenter: TrythisPresenter) {
         self.presenter = presenter
@@ -25,7 +65,6 @@ class TrythisModel {
         ref
             .child("INTERESTS")
             .child(currentUser!.uid)
-            //.child("CATEGORIES")
             .child(interest.category)
             .child(interest.subcategory)
             .setValue(interest.subcategory)
@@ -38,35 +77,10 @@ class TrythisModel {
         ref
             .child("INTERESTS")
             .child(currentUser!.uid)
-            //.child("CATEGORIES")
             .child(interest.category)
             .child(interest.subcategory)
             .removeValue()
      }
-    
-    func getEvents(_ callback: @escaping (_ events: Array<Event>?, _ error: Error?) -> Void) {
-        var ref: DatabaseReference!
-        ref = Database.database().reference()
-        ref.child("EVENTOS").observeSingleEvent(of: .value, with: {(snapshot) in
-            var events: Array<Event> = []
-            for child in snapshot.children {
-                let data = child as! DataSnapshot
-                let dataValue = data.value as! [String: AnyObject]
-                let event = Event()
-                //event.name = dataValue["name"] as! String
-                event.name = data.key
-                event.date = dataValue["date"] as! String
-                event.category = dataValue["category"] as! String
-                event.subcategory = dataValue["subcategory"] as! String
-                events.append(event)
-            }
-            DispatchQueue.main.async {
-                callback(events, nil)
-            }
-        }) {(error) in
-            callback(nil, error)
-        }
-    }
     
     func getCategories(_ callback: @escaping (_ interests: [String:[Interest]]?, _ error: Error?) -> Void) {
         var ref: DatabaseReference!
