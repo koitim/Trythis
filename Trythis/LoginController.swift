@@ -23,7 +23,7 @@ class LoginController: UIViewController {
                 
                 let callback = {(_ success: Bool/*, _ error: Error?*/) -> Void in
                     if success {
-                        if let initialVC = UIStoryboard(name: "Trythis", bundle: nil).instantiateInitialViewController() {
+                        if let initialVC = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController() {
                             self.present(initialVC, animated: true, completion: nil)
                         }
                     } else {

@@ -10,7 +10,7 @@ import UIKit
 
 class TrythisPresenter {
     var events: Array<Event> = []
-    var interests: Array<Interest> = []
+    var interests = [String:[Interest]]()
     
     let view: TrythisView
     let model: TrythisModel
@@ -35,25 +35,36 @@ class TrythisPresenter {
         model.getEvents(callback)
     }
     
-    func getInterests() -> Array<Interest> {
+    func getInterests() -> [String: [Interest]] {
         return interests
     }
     
     func fetchInterests() {
-        let cbInterests = {(_ interests: Array<Interest>?, _ error: Error?) -> Void in
+        let cbInterests = {(_ interests: [String:[Interest]]?, _ error: Error?) -> Void in
             if let interestsUser = interests {
-                for interestUser in interestsUser {
+                for (category,listInterests) in interestsUser {
+                    for interest in listInterests {
+                        let subcategory = interest.subcategory
+                        for element in self.interests[category]! {
+                            if element.subcategory == subcategory {
+                                element.interest = true
+                                break
+                            }
+                        }
+                    }
+                }
+                /*for interestUser in interestsUser {
                     for interest in self.interests {
                         if interest.category == interestUser.category &&
                             interest.subcategory == interestUser.subcategory {
                             interest.interest = true
                         }
                     }
-                }
+                }*/
                 self.view.updated()
             }
         }
-        let cbCategories = {(_ categories: Array<Interest>?, _ error: Error?) -> Void in
+        let cbCategories = {(_ categories: [String:[Interest]]?, _ error: Error?) -> Void in
             if let categories = categories {
                 self.interests = categories
                 self.view.updated()
@@ -62,18 +73,12 @@ class TrythisPresenter {
         }
         model.getCategories(cbCategories)
     }
-    /*
-    func favorite(_ movie: Movie) {
-        MovieService.favorite(movie)
-        moviesFavorites.append(movie)
-        view.updatedFavorites()
-    }
     
-    func unFavorite(_ movie: Movie) {
-        MovieService.unFavorite(movie)
-        moviesFavorites = moviesFavorites.filter { (m) -> Bool in
-            movie.id != m.id
+    func changeInterest(_ interest: Interest) {
+        if interest.interest {
+            model.addInterest(interest)
+        } else {
+            model.removeInterest(interest)
         }
-        view.updatedFavorites()
-    }*/
+    }
 }

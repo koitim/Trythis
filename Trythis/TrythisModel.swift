@@ -25,9 +25,10 @@ class TrythisModel {
         ref
             .child("INTERESTS")
             .child(currentUser!.uid)
-            .child("CATEGORIES")
+            //.child("CATEGORIES")
             .child(interest.category)
-            .setValue((interest.subcategory))
+            .child(interest.subcategory)
+            .setValue(interest.subcategory)
     }
     
     func removeInterest(_ interest: Interest) {
@@ -37,7 +38,7 @@ class TrythisModel {
         ref
             .child("INTERESTS")
             .child(currentUser!.uid)
-            .child("CATEGORIES")
+            //.child("CATEGORIES")
             .child(interest.category)
             .child(interest.subcategory)
             .removeValue()
@@ -67,16 +68,14 @@ class TrythisModel {
         }
     }
     
-    func getCategories(_ callback: @escaping (_ interests: Array<Interest>?, _ error: Error?) -> Void) {
+    func getCategories(_ callback: @escaping (_ interests: [String:[Interest]]?, _ error: Error?) -> Void) {
         var ref: DatabaseReference!
         ref = Database.database().reference()
         ref.child("CATEGORIAS").observeSingleEvent(of: .value, with: {(snapshot) in
-            var interests: Array<Interest> = []
+            var mapInterests = [String:[Interest]]()
             for child in snapshot.children {
                 let data = child as! DataSnapshot
-                let interest = Interest()
-                interest.category = data.key
-                interests.append(interest)
+                var interests: [Interest] = []
                 let dataValue = data.value as! [String: AnyObject]
                 for element in dataValue {
                     let interest = Interest()
@@ -84,23 +83,25 @@ class TrythisModel {
                     interest.subcategory = element.key
                     interests.append(interest)
                 }
+                mapInterests[data.key] = interests
             }
             DispatchQueue.main.async {
-                callback(interests, nil)
+                callback(mapInterests, nil)
             }
         }) {(error) in
             callback(nil, error)
         }
     }
     
-    func getInterests(_ callback: @escaping (_ interests: Array<Interest>?, _ error: Error?) -> Void) {
+    func getInterests(_ callback: @escaping (_ interests: [String:[Interest]]?, _ error: Error?) -> Void) {
         let currentUser = Auth.auth().currentUser
         var ref: DatabaseReference!
         ref = Database.database().reference()
         ref.child("INTERESTS").child(currentUser!.uid).observeSingleEvent(of: .value, with: {(snapshot) in
-            var interests: Array<Interest> = []
+            var mapInterests = [String:[Interest]]()
             for child in snapshot.children {
                 let data = child as! DataSnapshot
+                var interests: [Interest] = []
                 let dataValue = data.value as! [String: AnyObject]
                 for element in dataValue {
                     let interest = Interest()
@@ -108,9 +109,10 @@ class TrythisModel {
                     interest.subcategory = element.key
                     interests.append(interest)
                 }
+                mapInterests[data.key] = interests
             }
             DispatchQueue.main.async {
-                callback(interests, nil)
+                callback(mapInterests, nil)
             }
         }) {(error) in
             callback(nil, error)
