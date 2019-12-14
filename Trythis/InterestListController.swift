@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InterestListController: UIViewController, UITableViewDataSource, UITableViewDelegate, TrythisView {
+class InterestListController: UIViewController, UITableViewDataSource, TrythisView {
     
     @IBOutlet var tableView: UITableView!
     //@IBOutlet var progress: UIActivityIndicatorView!
@@ -25,28 +25,10 @@ class InterestListController: UIViewController, UITableViewDataSource, UITableVi
         self.interests = presenter!.getInterests()
     }
     
-    @IBAction func changeInterest(_ sender: UISwitch) {
-        let interest = Interest()
-        interest.category = "Shows"
-        interest.subcategory = "MPB"
-        interest.interest = sender.isOn
-        presenter?.changeInterest(interest)
-        /*if let category = sender.value(forUndefinedKey: "category") as? String, let subcategory = sender.value(forUndefinedKey: "subcategory") as? String {
-            let interest = Interest()
-            interest.category = category
-            interest.subcategory = subcategory
-            interest.interest = sender.isOn
-            presenter?.changeInterest(interest)
-        }*/
-    }
+    // DataSource
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return interests.keys.count
-    }
-    
-    func updated() {
-        interests = presenter!.getInterests()
-        self.tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -70,15 +52,26 @@ class InterestListController: UIViewController, UITableViewDataSource, UITableVi
         if let listInterests = interests[key] {
             let interest = listInterests[indexPath.row]
             if let cell = tableView.dequeueReusableCell(withIdentifier: "Interest", for: indexPath) as? SubcategoryCell {
+                cell.interest = interest
+                cell.view = self
                 cell.lblNameSubcategory.text = interest.subcategory
                 cell.swInterest.isOn = interest.interest
-                
-                //cell.swInterest.setValue(key, forUndefinedKey: "category")
-                //cell.swInterest.setValue(interest.subcategory, forUndefinedKey: "subcategory")
                 return cell
             }
         }
         return UITableViewCell()
+    }
+    
+    
+    // View
+    
+    func updated() {
+        interests = presenter!.getInterests()
+        self.tableView.reloadData()
+    }
+    
+    func changeValue(interest: Interest) {
+        presenter?.changeInterest(interest)
     }
 }
 

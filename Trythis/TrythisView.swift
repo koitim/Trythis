@@ -9,4 +9,6 @@
 import Foundation
 
 protocol TrythisView {
-    func updated();}
+    func updated();
+    func changeValue(interest: Interest);
+}

@@ -13,4 +13,6 @@ class EventCell: UITableViewCell {
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblDate: UILabel!
     
+    
+    
 }

@@ -25,10 +25,20 @@ class EventListController: UIViewController, UITableViewDataSource, TrythisView 
         self.events = presenter!.getEvents()
     }
     
+    
+    // View
+    
     func updated() {
         events = presenter!.getEvents()
         self.tableView.reloadData()
     }
+    
+    func changeValue(interest: Interest) {
+        
+    }
+    
+    
+    // DataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return events.count

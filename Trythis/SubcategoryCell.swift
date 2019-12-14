@@ -10,7 +10,15 @@ import UIKit
 
 class SubcategoryCell: UITableViewCell {
     
+    var interest: Interest? = nil
+    var view: TrythisView? = nil
+    
     @IBOutlet weak var lblNameSubcategory: UILabel!
     @IBOutlet weak var swInterest: UISwitch!
+    
+    @IBAction func changeInterest(_ sender: UISwitch) {
+        interest?.interest = sender.isOn
+        view?.changeValue(interest: interest!)
+    }
     
 }
